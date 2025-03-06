@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        /** Default options **/
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "strict": true,
+
+        /***
+          Using mts files in order to import properly,
+          we need to have these set just so. ***/
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
+        "target": "es2022",
+
+        /* We use build as an intermediary, then esbuild will bundle it into one thing to dist. */
+        "outDir": "build"
+    },
+    // We are only using mts.
+    "include": ["src/**/*.mts"]
+}
