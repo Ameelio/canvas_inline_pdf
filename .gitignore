@@ -1,6 +1,4 @@
 /.bundle/
-/.yardoc
-/_yardoc/
 /coverage/
 /doc/
 /pkg/
@@ -9,4 +7,3 @@
 
 # rspec failure tracking
 .rspec_status
-node_modules
