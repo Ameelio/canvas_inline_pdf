@@ -1,0 +1,15 @@
+module CanvasInlinePdf
+  VERSION: String
+
+  interface _HasContent
+    def content_type: () -> String  
+  end
+
+  interface _HasUrl
+    def public_url: (expires_in: Integer) -> String
+  end
+
+  def self.register_plugin: () -> Boolean
+  def self.previewable?: (NilClass, _HasContent) -> Boolean
+  def self.preview: (_HasUrl) -> String
+end
