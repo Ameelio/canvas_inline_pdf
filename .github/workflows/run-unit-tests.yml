@@ -1,0 +1,33 @@
+name: Unit Tests
+run-name: ${{ github.actor }} is running the unit tests.
+on: [pull_request]
+jobs:
+  unit-tests:
+    strategy:
+      matrix:
+        ruby:
+          - '3.1.6'
+          - '3.2.7'
+          - '3.3.7'
+          - '3.4.2'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: ${{ matrix.ruby }}
+      - name: Run the unit tests.
+        run: bundle exec rspec -f -j -o tmp/rspec_results.json -f p
+      - name: Unit Test Report
+        uses: SonicGarden/rspec-report-action@v6
+        if: always()
+        with:
+          json-path: tmp/rspec_results.json
+          title: '# :cold_sweat: Rspec (${{ matrix.ruby }}) failure.'
+      - name: Coverage Report
+        uses: romeovs/lcov-reporter-action@v0.4.0
+        if: always()
+        with:
+          lcov-file: ./coverage/lcov/ruby-simplecov.lcov
+          title: 'Coverage (${{ matrix.ruby }})'
