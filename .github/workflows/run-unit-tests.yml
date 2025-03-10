@@ -21,7 +21,7 @@ jobs:
           bundler-cache: true
           ruby-version: ${{ matrix.ruby }}
       - name: Run the unit tests.
-        run: bundle exec rspec -f -j -o tmp/rspec_results.json -f p
+        run: bundle exec rspec -f json -o tmp/rspec_results.json -f failures
       - name: Unit Test Report
         uses: SonicGarden/rspec-report-action@v6
         if: always()
