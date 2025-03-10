@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+# ##############################
+# Must be before any other code:
+# ##############################
+require "support/coverage"
+
 require "canvas_inline_pdf"
 require "support/mock_attachment"
 
