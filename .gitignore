@@ -7,3 +7,9 @@
 
 # rspec failure tracking
 .rspec_status
+
+# sqlite3 databases
+*.sqlite3
+
+# Mock site temporary files.
+spec/support/mock_site/tmp

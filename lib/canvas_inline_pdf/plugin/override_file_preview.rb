@@ -29,42 +29,55 @@ module CanvasInlinePdf
     # And, this should be removed once Canvas upstream changes their controller
     # to allow for additional plugins beyond croc and canvasdoc.
     class OverrideFilePreview
-      def initialize(enabled)
-        @enabled = enabled
-      end
-
       # Runs before the FilePreviewsController#show method is called
       # If the file can be rendered inline, it will call a redirect
       # which because the controller this is modifying uses an iframe:
       # will render the pdf within the iframe.
-      def before_action
+      def before(controller)
         # Do nothing unless this setting is true.
-        return unless @enabled
+        return unless enabled?
 
-        file = @context.attachments.not_deleted.find_by(id: params[:file_id])
+        context = controller.instance_variable_get(:@context)
+
+        file = context.attachments.not_deleted.find_by(id: controller.params[:file_id])
 
         # Continue to the FilePreviewsController#show action.
-        return unless allowed?(file)
-        return unless CanvasInlinePdf.previewable(nil, file)
+        return unless file.present?
+        return unless allowed?(controller, file)
+        return unless CanvasInlinePdf.previewable?(nil, file)
 
         # Per Canvas: mark item seen for module progression purposes
-        file.context_module_action(@current_user, :read) if @current_user
-        log_asset_access(file, "files", "files")
+        mark_seen(controller, file)
 
         url = CanvasInlinePdf.preview_url(file)
 
         # This will redirect (and thus cancel any remaining callbacks)
-        redirect_to url
+        controller.redirect_to url
       end
 
       private
 
-      def allowed?(file)
-        [
-          file.present?,
-          read_allowed(file, @current_user, session, params),
-          download_allowed(file, @current_user, session, params)
-        ].all?
+      def allowed?(controller, file)
+        current_user = controller.instance_variable_get(:@current_user)
+        params       = controller.params
+        session      = controller.session
+
+        controller.send(:read_allowed, file, current_user, params, session) &&
+          controller.send(:download_allowed, file, current_user, params, session)
+      end
+
+      def enabled?
+        CanvasInlinePdf.override_file_preview?
+      end
+
+      def mark_seen(controller, file)
+        current_user = controller.instance_variable_get(:@current_user)
+
+        # :nocov:
+        file.context_module_action(current_user, :read) if current_user
+        # :nocov:
+
+        controller.send(:log_asset_access, file, "files", "files")
       end
     end
   end

@@ -13,10 +13,16 @@ require "simplecov_lcov_formatter"
 
 # Use LCOV format for github reports.
 SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
-SimpleCov.formatter = SimpleCov::Formatter::LcovFormatter
 
 SimpleCov.start do
   enable_coverage :branch
+  add_filter "/spec/"
+
+  if ENV["CI"]
+    formatter SimpleCov::Formatter::LcovFormatter
+  else
+    formatter SimpleCov::Formatter::HTMLFormatter
+  end
 end
 
 # If there are parts of the code we cannot test, we can tell simplecov to
