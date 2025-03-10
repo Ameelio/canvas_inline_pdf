@@ -26,11 +26,12 @@ jobs:
         uses: SonicGarden/rspec-report-action@v6
         if: always()
         with:
+          comment: false
           json-path: tmp/rspec_results.json
           title: '# :cold_sweat: Rspec (${{ matrix.ruby }}) failure.'
       - name: Coverage Report
         uses: romeovs/lcov-reporter-action@v0.4.0
         if: always()
         with:
-          lcov-file: ./coverage/lcov/ruby-simplecov.lcov
+          lcov-file: ./coverage/lcov/canvas_inline_pdf.lcov
           title: 'Coverage (${{ matrix.ruby }})'
