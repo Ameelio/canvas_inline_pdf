@@ -10,6 +10,9 @@ jobs:
           - '3.2.7'
           - '3.3.7'
           - '3.4.2'
+        platform:
+          - 'ubuntu-22.04'
+    runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Ruby
