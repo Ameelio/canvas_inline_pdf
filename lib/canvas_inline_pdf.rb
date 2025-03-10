@@ -26,7 +26,8 @@ module CanvasInlinePdf
   extend Plugin
   extend Preview
 
-  if defined?(Rails) && defined?(Canvas)
+  # :nocov:
+  if defined?(Rails)
     # This registers the plugin and adds a callback to FilePreviewsController
     # It also adds the plugin_settings partial to the view path.
     # @see https://edgeapi.rubyonrails.org/classes/Rails/Engine.html
@@ -36,6 +37,7 @@ module CanvasInlinePdf
       end
     end
   end
+  # :nocov:
 
   private_constant :Plugin
   private_constant :Preview

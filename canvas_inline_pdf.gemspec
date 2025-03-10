@@ -8,7 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["Ameelio"]
   spec.email = ["jasonk@ameelio.org"]
 
-  spec.summary = "Canvas LMS Plugin to allow inline file preview for PDFS."
+  spec.description = "Canvas LMS Plugin to allow inline file preview for PDFS."
+  spec.summary = "Inline PDF"
   spec.homepage = "https://github.com/Ameelio/canvas_inline_pdf"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"
@@ -21,7 +22,6 @@ Gem::Specification.new do |spec|
   spec.files = %w[
     app/views/canvas_inline_pdf/_plugin_settings.html.erb
     lib/canvas_inline_pdf.rb
-    lib/canvas_inline_pdf/engine.rb
     lib/canvas_inline_pdf/plugin.rb
     lib/canvas_inline_pdf/plugin/override_file_preview.rb
     lib/canvas_inline_pdf/preview.rb

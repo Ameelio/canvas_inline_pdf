@@ -23,13 +23,11 @@ require "canvas_inline_pdf/plugin/override_file_preview"
 module CanvasInlinePdf
   # Canvas LMS Integration and registration.
   module Plugin
-    # Raised when this plugin is attempted to be used,
-    # and we find that we are not in a repo.
-    class NotInCanvasRepoError < StandardError; end
+    def override_file_preview?
+      Plugin.override_file_preview?
+    end
 
     def register_plugin
-      raise NotInCanvasRepoError unless defined?(Canvas)
-
       Plugin.register
     end
 
@@ -37,8 +35,8 @@ module CanvasInlinePdf
 
     @cfg = {
       author: spec.authors.first,
-      description: proc { I18n.t(:description, spec.description) },
-      name: proc { I18n.t(:name, spec.summary) },
+      description: spec.description,
+      name: spec.summary,
       hide_from_users: false,
       settings_partial: "canvas_inline_pdf/plugin_settings",
       settings: {
@@ -53,17 +51,17 @@ module CanvasInlinePdf
     # As singleton methods, these never get
     # added when include or extend are called.
     # ########################################
-    def self.config
-      Canvas::Plugin.find(@name)&.settings || @cfg[:settings]
+    def self.override_file_preview?
+      plugin = Canvas::Plugin.find(@name)
+
+      plugin&.enabled? && plugin.settings[:override_file_preview]
     end
 
     def self.register
       Canvas::Plugin.register(@name, :previews, @cfg)
 
       ::FilePreviewsController.before_action(
-        OverrideFilePreview.new(
-          config[:override_file_preview]
-        ),
+        OverrideFilePreview.new,
         on: :show
       )
     end

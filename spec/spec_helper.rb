@@ -6,7 +6,6 @@
 require "support/coverage"
 
 require "canvas_inline_pdf"
-require "support/mock_attachment"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
