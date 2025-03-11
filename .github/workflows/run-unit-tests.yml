@@ -1,4 +1,6 @@
 name: Unit Tests
+env:
+  CI: true
 run-name: ${{ github.actor }} is running the unit tests.
 on: [pull_request]
 jobs:
