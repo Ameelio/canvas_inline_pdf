@@ -5,11 +5,11 @@ require_relative "lib/canvas_inline_pdf/version"
 Gem::Specification.new do |spec|
   spec.name = "canvas_inline_pdf"
   spec.version = CanvasInlinePdf::VERSION
-  spec.authors = ["Ameelio"]
+  spec.authors = ["Ameelio", "Jason Kenney"]
   spec.email = ["jasonk@ameelio.org"]
 
   spec.description = "Canvas LMS Plugin to allow inline file preview for PDFS."
-  spec.summary = "Inline PDF"
+  spec.summary = "Inline PDF Plugin for Canvas LMS"
   spec.homepage = "https://github.com/Ameelio/canvas_inline_pdf"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"
@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
   spec.metadata["changelog_uri"] = "#{spec.homepage}/CHANGELOG.md"
+  spec.metadata["github_repo"] = "ssh://github.com/Ameelio/canvas_inline_pdf"
 
   # Specify which files should be added to the gem when it is released.
   spec.files = %w[

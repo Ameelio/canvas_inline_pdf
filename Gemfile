@@ -20,3 +20,5 @@ gem "sqlite3", "~> 2.6"
 gem "rspec-rails", "~> 7.1"
 
 gem "debug", "~> 1.10"
+
+gem "steep", "~> 1.10.pre.1"

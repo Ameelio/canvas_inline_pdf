@@ -18,20 +18,24 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+require "canvas_inline_pdf/version"
+
 require "canvas_inline_pdf/plugin"
 require "canvas_inline_pdf/preview"
 
 # Canvas Plugin to render PDFS inline.
 module CanvasInlinePdf
-  extend Plugin
   extend Preview
+  extend Plugin
 
   # :nocov:
   if defined?(Rails)
     # This registers the plugin and adds a callback to FilePreviewsController
     # It also adds the plugin_settings partial to the view path.
     # @see https://edgeapi.rubyonrails.org/classes/Rails/Engine.html
-    class Engine < Rails::Engine
+    class Engine < ::Rails::Engine
+      isolate_namespace CanvasInlinePdf
+
       config.to_prepare do
         CanvasInlinePdf.register_plugin
       end

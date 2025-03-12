@@ -1,0 +1,6 @@
+module CanvasInlinePdf
+  class Engine < Rails::Engine
+
+    def self.config: () -> untyped
+  end
+end

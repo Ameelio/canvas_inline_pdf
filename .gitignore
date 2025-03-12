@@ -13,3 +13,9 @@
 
 # Mock site temporary files.
 spec/support/mock_site/tmp
+
+# RBS definitions
+/.gem_rbs_collection/
+
+# Gems
+*.gem

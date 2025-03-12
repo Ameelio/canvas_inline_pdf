@@ -31,18 +31,16 @@ module CanvasInlinePdf
       Plugin.register
     end
 
-    spec = Gem::Specification.find_by_name("canvas_inline_pdf")
-
     @cfg = {
-      author: spec.authors.first,
-      description: spec.description,
-      name: spec.summary,
+      author: "Ameelio",
+      description: "Allows users to view PDFs inline within File Preview.",
+      name: "Inline PDF",
       hide_from_users: false,
       settings_partial: "canvas_inline_pdf/plugin_settings",
       settings: {
         override_file_preview: false
       },
-      version: spec.version
+      version: CanvasInlinePdf::VERSION
     }
 
     @name = :canvas_inline_pdf
