@@ -1,0 +1,15 @@
+<%= fields_for :settings, OpenObject.new(settings) do |f| %>
+  <table style="width: 500px;" class="formtable">
+    <tr>
+      <td colspan="2">
+        <%= mt :description, "Enabling Override File Preview will replace file previews (for pdfs) with this plugin." %>
+      </td>
+    </tr>
+    <tr>
+      <td><%= f.blabel :override_file_preview, :en => "Override File Preview" %></td>
+      <td>
+        <%= f.check_box :override_file_preview %>
+      </td>
+    </tr>
+  </table>
+<% end %>

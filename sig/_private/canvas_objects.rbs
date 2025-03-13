@@ -1,0 +1,10 @@
+# This is a controller we override in Canvas
+
+class FilePreviewsController < ActionController::Base
+end
+
+module Canvas
+  class Plugin < ActiveRecord::Base
+    def self.register: (String | Symbol, String | Symbol, Hash[Symbol, untyped]) -> void
+  end
+end
