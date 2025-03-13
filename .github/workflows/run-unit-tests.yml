@@ -1,9 +1,39 @@
 name: Unit Tests
+
 env:
   CI: true
+
 run-name: ${{ github.actor }} is running the unit tests.
+
 on: [pull_request]
+
 jobs:
+  type-check:
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: '3.1.6'
+
+      - name: Cache RBS collection
+        id: cache-rbs
+        uses: actions/cache@v4
+        with:
+          path: .gem_rbs_collection
+          key: ${{ hashFiles('Gemfile.lock') }}
+
+      - name: Install RBS types for gems in Gemfile.lock
+        if: ${{ steps.cache-rbs.outputs.cache_hit != 'true' }}
+        run: bundle exec rbs collection install
+
+      - name: Check Types
+        run: bundle exec steep check
+
+
   unit-tests:
     strategy:
       matrix:
@@ -17,23 +47,27 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
           ruby-version: ${{ matrix.ruby }}
+
       - name: Run the unit tests.
         run: bundle exec rspec -f json -o tmp/rspec_results.json -f failures
+
       - name: Unit Test Report
         uses: SonicGarden/rspec-report-action@v6
-        if: always()
+        if: ${{ failure() }}
         with:
           comment: false
           json-path: tmp/rspec_results.json
           title: '# :cold_sweat: Rspec (${{ matrix.ruby }}) failure.'
+
       - name: Coverage Report
         uses: romeovs/lcov-reporter-action@v0.4.0
-        if: always()
+        if: ${{ failure() }} && ${{ matrix.ruby == '3.1.6' }}
         with:
           lcov-file: ./coverage/lcov/canvas_inline_pdf.lcov
           title: 'Coverage (${{ matrix.ruby }})'
