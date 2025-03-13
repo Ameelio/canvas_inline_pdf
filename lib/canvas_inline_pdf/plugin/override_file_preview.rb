@@ -52,7 +52,7 @@ module CanvasInlinePdf
         url = CanvasInlinePdf.preview_url(file)
 
         # This will redirect (and thus cancel any remaining callbacks)
-        controller.redirect_to url
+        controller.send(:redirect_to, url)
       end
 
       private
