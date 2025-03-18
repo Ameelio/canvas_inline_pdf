@@ -33,7 +33,6 @@ jobs:
       - name: Check Types
         run: bundle exec steep check
 
-
   unit-tests:
     strategy:
       matrix:
