@@ -1,0 +1,49 @@
+name: Publish Gem
+
+env:
+  CI: true
+  REGISTRY: https://rubygems.pkg.github.com/${{ github.repository_owner }}
+  GEM_PATH: ${{ github.repository }}-${{ github.event.release.tag_name }}
+
+run-name: ${{ github.actor }} is publishing the gem
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  publish:
+    runs-on: 'ubuntu-22.04'
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: '3.1.6'
+
+      - name: Run the unit tests.
+        run: bundle exec rspec -f progress
+
+      - name: Build The Gem.
+        run: gem build ${{ github.repository }}.gemspec
+
+      - name: Verify the gem matches the tag.
+        id: verify_gem_version
+        run: |
+          if [[ -e "${GEM_PATH}" ]]; then
+            echo "check_result=true" >> $GITHUB_OUTPUT
+          else
+            echo "The gem created does not match ${GEM_PATH}"
+            exit 1
+          fi
+
+      - name: Publish the Gem.
+        if: steps.verify_gem_version.outputs.check_result == 'true'
+        run: gem push --key github --host "${REGISTRY}/${GEM_PATH}"
