@@ -34,7 +34,6 @@ module CanvasInlinePdf
     # It also adds the plugin_settings partial to the view path.
     # @see https://edgeapi.rubyonrails.org/classes/Rails/Engine.html
     class Engine < ::Rails::Engine
-      isolate_namespace CanvasInlinePdf
 
       config.to_prepare do
         CanvasInlinePdf.register_plugin
