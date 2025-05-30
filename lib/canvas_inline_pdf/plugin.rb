@@ -24,8 +24,16 @@ require "canvas_inline_pdf/plugin/override_file_preview"
 module CanvasInlinePdf
   # Canvas LMS Integration and registration.
   module Plugin
+    def enabled?
+      plugin = Plugin.find
+
+      plugin&.enabled? == true
+    end
+
     def override_file_preview?
-      Plugin.override_file_preview?
+      plugin = Plugin.find
+
+      plugin&.enabled? && plugin.settings[:override_file_preview]
     end
 
     def register_plugin
@@ -50,10 +58,8 @@ module CanvasInlinePdf
     # As singleton methods, these never get
     # added when include or extend are called.
     # ########################################
-    def self.override_file_preview?
-      plugin = Canvas::Plugin.find(@name)
-
-      plugin&.enabled? && plugin.settings[:override_file_preview]
+    def self.find
+      Canvas::Plugin.find(@name)
     end
 
     def self.register

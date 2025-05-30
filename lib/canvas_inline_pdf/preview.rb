@@ -26,7 +26,7 @@ module CanvasInlinePdf
     # Returns true if attachment is a PDF or TXT file.
     # @see https://github.com/instructure/canvas-lms/blob/master/app/models/attachment.rb
     def previewable?(_account, attachment)
-      attachment&.content_type.to_s == "application/pdf"
+      CanvasInlinePdf.enabled? && attachment&.content_type.to_s == "application/pdf"
     end
 
     # Redirects to the attachment's public url (If in S3 this is a signed url)

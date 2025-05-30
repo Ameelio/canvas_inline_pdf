@@ -10,16 +10,40 @@ module CanvasInlinePdf
           MockAttachment.prepend(AttachmentExtension)
         end
 
-        it "should return true when the content_type is pdf." do
-          mock_attachment = MockAttachment.new("application/pdf", "https://www.example.com")
+        context "when plugin is enabled" do
+          before do
+            allow(CanvasInlinePdf).to receive(:enabled?) { true }
+          end
 
-          expect(mock_attachment).to be_inline_content
+          it "should return true when the content_type is pdf." do
+            mock_attachment = MockAttachment.new("application/pdf", "https://www.example.com")
+
+            expect(mock_attachment).to be_inline_content
+          end
+
+          it "should return false when the content_type is not pdf" do
+            mock_attachment = MockAttachment.new("application/javascript", "https://www.example.com")
+
+            expect(mock_attachment).not_to be_inline_content
+          end
         end
 
-        it "should return false when the content_type is not pdf" do
-          mock_attachment = MockAttachment.new("application/javascript", "https://www.example.com")
+        context "when plugin is disabled" do
+          before do
+            allow(CanvasInlinePdf).to receive(:enabled?) { false }
+          end
 
-          expect(mock_attachment).not_to be_inline_content
+          it "should return true when the content_type is pdf." do
+            mock_attachment = MockAttachment.new("application/pdf", "https://www.example.com")
+
+            expect(mock_attachment).not_to be_inline_content
+          end
+
+          it "should return false when the content_type is not pdf" do
+            mock_attachment = MockAttachment.new("application/javascript", "https://www.example.com")
+
+            expect(mock_attachment).not_to be_inline_content
+          end
         end
       end
     end

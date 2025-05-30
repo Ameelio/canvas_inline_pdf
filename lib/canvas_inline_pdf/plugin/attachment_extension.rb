@@ -7,7 +7,7 @@ module CanvasInlinePdf
     # This is relevant for when students look at pdfs within the Modules section.
     module AttachmentExtension
       def inline_content?
-        content_type == "application/pdf" || super # steep:ignore
+        CanvasInlinePdf.previewable?(nil, self) || super # steep:ignore
       end
     end
   end

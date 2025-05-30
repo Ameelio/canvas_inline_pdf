@@ -1,4 +1,4 @@
-<%= fields_for :settings, OpenObject.new(settings) do |f| %>
+<%= fields_for :settings do |f| %>
   <table style="width: 500px;" class="formtable">
     <tr>
       <td colspan="2">
@@ -8,7 +8,7 @@
     <tr>
       <td><%= f.blabel :override_file_preview, :en => "Override File Preview" %></td>
       <td>
-        <%= f.check_box :override_file_preview %>
+        <%= f.check_box :override_file_preview, { checked: Canvas::Plugin.value_to_boolean(settings[:override_file_preview]) }, 'true', 'false' %>
       </td>
     </tr>
   </table>

@@ -42,16 +42,38 @@ RSpec.describe CanvasInlinePdf do
       expect(CanvasInlinePdf.previewable?(nil, nil)).to be false
     end
 
-    it "should return false when the attachment is not pdf" do
-      attachment = MockAttachment.new("application/javascript", "https://www.example.com")
+    context "when plugin is enabled" do
+      before do
+        mock_plugin = MockPlugin.new(true, true)
 
-      expect(CanvasInlinePdf.previewable?(nil, attachment)).to be false
+        allow(Canvas::Plugin).to receive(:find) { mock_plugin }
+      end
+
+      it "should return false when the attachment is not pdf" do
+        attachment = MockAttachment.new("application/javascript", "https://www.example.com")
+
+        expect(CanvasInlinePdf.previewable?(nil, attachment)).to be false
+      end
+
+      it "should return true when the attachment is pdf" do
+        attachment = MockAttachment.new("application/pdf", "https://www.example.com")
+
+        expect(CanvasInlinePdf.previewable?(nil, attachment)).to be true
+      end
     end
 
-    it "should return true when the attachment is pdf" do
-      attachment = MockAttachment.new("application/pdf", "https://www.example.com")
+    context "when the plugin is disabled" do
+      it "should return false when the attachment is not pdf" do
+        attachment = MockAttachment.new("application/javascript", "https://www.example.com")
 
-      expect(CanvasInlinePdf.previewable?(nil, attachment)).to be true
+        expect(CanvasInlinePdf.previewable?(nil, attachment)).to be false
+      end
+
+      it "should return false even when the attachment is pdf" do
+        attachment = MockAttachment.new("application/pdf", "https://www.example.com")
+
+        expect(CanvasInlinePdf.previewable?(nil, attachment)).to be false
+      end
     end
   end
 
