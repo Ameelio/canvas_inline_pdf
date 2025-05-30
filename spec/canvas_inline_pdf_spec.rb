@@ -11,7 +11,7 @@ RSpec.describe CanvasInlinePdf do
 
   describe ".override_file_preview?" do
     it "should be able to override if both enabled and override_file_preview are true" do
-      mock_plugin = MockPlugin.new(true, true)
+      mock_plugin = MockPlugin.new(true, "true")
 
       allow(Canvas::Plugin).to receive(:find) { mock_plugin }
       expect(CanvasInlinePdf.override_file_preview?).to be(true)
@@ -74,14 +74,6 @@ RSpec.describe CanvasInlinePdf do
 
         expect(CanvasInlinePdf.previewable?(nil, attachment)).to be false
       end
-    end
-  end
-
-  describe ".preview_url" do
-    it "should return the public_url of the attachment" do
-      attachment = MockAttachment.new("application/pdf", "https://www.example.com")
-
-      expect(CanvasInlinePdf.preview_url(attachment)).to eq("https://www.example.com")
     end
   end
 

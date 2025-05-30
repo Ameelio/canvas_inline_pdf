@@ -33,7 +33,7 @@ module CanvasInlinePdf
     def override_file_preview?
       plugin = Plugin.find
 
-      plugin&.enabled? && plugin.settings[:override_file_preview]
+      plugin&.enabled? && plugin.settings[:override_file_preview] == "true"
     end
 
     def register_plugin

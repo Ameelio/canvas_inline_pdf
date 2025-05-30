@@ -41,11 +41,6 @@ module CanvasInlinePdf
       def content_type: () -> String
     end
 
-    interface _HasUrl
-      def public_url: (expires_in: Integer) -> String
-    end
-
     def previewable?: (nil, _HasContent) -> bool
-    def preview_url: (_HasUrl) -> String
   end
 end

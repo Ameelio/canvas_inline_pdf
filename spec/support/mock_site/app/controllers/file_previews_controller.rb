@@ -13,6 +13,10 @@ class FilePreviewsController < ApplicationController
 
   private
 
+  def safe_domain_file_url(file, *)
+    file.public_url
+  end
+
   def download_allowed(_attachment, _user, _session, _params)
     @context.download_allowed?
   end

@@ -28,11 +28,5 @@ module CanvasInlinePdf
     def previewable?(_account, attachment)
       CanvasInlinePdf.enabled? && attachment&.content_type.to_s == "application/pdf"
     end
-
-    # Redirects to the attachment's public url (If in S3 this is a signed url)
-    # @see https://github.com/instructure/canvas-lms/blob/master/app/models/attachment.rb
-    def preview_url(attachment)
-      attachment.public_url(expires_in: 5 * 60)
-    end
   end
 end

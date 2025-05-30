@@ -6,7 +6,7 @@ RSpec.describe "PDF Previews", type: :request do
   context "when the plugin is enabled and override is turned on" do
     before do
       plugin = Canvas::Plugin.find(:canvas_inline_pdf)
-      plugin.meta[:settings][:override_file_preview] = true
+      plugin.meta[:settings][:override_file_preview] = "true"
       plugin.enabled = true
 
       plugin.save
@@ -14,7 +14,7 @@ RSpec.describe "PDF Previews", type: :request do
 
     after do
       plugin = Canvas::Plugin.find(:canvas_inline_pdf)
-      plugin.meta[:settings][:override_file_preview] = false
+      plugin.meta[:settings][:override_file_preview] = "false"
       plugin.enabled = false
 
       plugin.save
@@ -29,7 +29,7 @@ RSpec.describe "PDF Previews", type: :request do
 
       get "/file_previews/#{attachment.id}"
 
-      expect(response).to redirect_to("https://www.example.com")
+      expect(response).to be_ok
     end
 
     it "returns to the original controller when the attachment is not pdf" do

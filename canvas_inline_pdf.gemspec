@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   # Specify which files should be added to the gem when it is released.
   spec.files = %w[
     app/views/canvas_inline_pdf/_plugin_settings.html.erb
+    app/views/canvas_inline_pdf/preview.html.erb
     lib/canvas_inline_pdf.rb
     lib/canvas_inline_pdf/plugin.rb
     lib/canvas_inline_pdf/plugin/attachment_extension.rb

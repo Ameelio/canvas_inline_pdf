@@ -1,0 +1,12 @@
+<% provide :head, include_common_stylesheets %>
+<%= render :partial => "layouts/head" %>
+<body style="margin:0; padding: 0; background: transparent;">
+<iframe
+  id="file_content"
+  <% unless js_env.dig(:FEATURES, :disable_iframe_sandbox_file_show) %>
+    sandbox="allow-scripts allow-same-origin"
+  <% end %>
+  src="<%= file_url %>"
+  style="width: 100%; height: 400px;" title="<%= t('File Content') %>">
+</iframe>
+</body>

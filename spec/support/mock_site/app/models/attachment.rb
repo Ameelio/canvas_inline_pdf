@@ -13,4 +13,8 @@ class Attachment < ApplicationRecord
   def public_url(*)
     url
   end
+
+  def public_download_url(*)
+    url
+  end
 end

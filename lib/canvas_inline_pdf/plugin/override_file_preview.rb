@@ -49,10 +49,28 @@ module CanvasInlinePdf
         # Per Canvas: mark item seen for module progression purposes
         mark_seen(controller, file)
 
-        url = CanvasInlinePdf.preview_url(file)
+        verifier = controller.params[:verifier]
 
-        # This will redirect (and thus cancel any remaining callbacks)
-        controller.send(:redirect_to, url)
+        fallback_url = controller.send(
+          :context_url,
+          context,
+          :context_file_download_url,
+          file.id,
+          download_frd: 1,
+          verifier: verifier
+        )
+
+        file_url = controller.send(
+          :safe_domain_file_url,
+          file,
+          fallback_url: fallback_url,
+          verifier: verifier
+        )
+
+        # Ideally we would update FilePreviewController in instructure/canvas to
+        # call this if it can be rendered inline.
+        # controller.send(:render, layout: false, template: template, locals: { file_url: file_url })
+        controller.send(:redirect_to, file_url)
       end
 
       private
@@ -78,6 +96,10 @@ module CanvasInlinePdf
         # :nocov:
 
         controller.send(:log_asset_access, file, "files", "files")
+      end
+
+      def template
+        File.join('canvas_inline_pdf', 'preview')
       end
     end
   end
