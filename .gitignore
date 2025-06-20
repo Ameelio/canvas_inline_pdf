@@ -1,6 +1,4 @@
 /.bundle/
-/.yardoc
-/_yardoc/
 /coverage/
 /doc/
 /pkg/
@@ -9,4 +7,18 @@
 
 # rspec failure tracking
 .rspec_status
-node_modules
+
+# sqlite3 databases
+*.sqlite3
+
+# Mock site temporary files.
+spec/support/mock_site/tmp
+
+# RBS definitions
+/.gem_rbs_collection/
+
+# Gems
+*.gem
+
+# Logs
+*.log

@@ -1,0 +1,46 @@
+module CanvasInlinePdf
+  VERSION: String
+
+  extend Preview
+  extend Plugin
+
+  module Plugin
+    interface _CanvasPlugin
+      def enabled?: () -> bool
+      def settings: () -> Hash[Symbol, untyped]
+    end
+
+    self.@cfg : Hash[Symbol, untyped]
+    self.@name : Symbol
+
+    def self.find: () -> _CanvasPlugin
+    def self.register: () -> void
+
+    def enabled?: () -> bool
+    def register_plugin: () -> void
+    def override_file_preview?: () -> bool
+
+    module AttachmentExtension
+      def inline_content?: () -> bool
+    end
+
+    class OverrideFilePreview
+      include ::AbstractController::Callbacks::ClassMethods::_BeforeActionCallback
+
+      # private methods.
+      def allowed?: (ActionController::Base, untyped) -> bool
+
+      def enabled?: () -> bool
+
+      def mark_seen: (ActionController::Base, untyped) -> untyped
+    end
+  end
+
+  module Preview
+    interface _HasContent
+      def content_type: () -> String
+    end
+
+    def previewable?: (nil, _HasContent) -> bool
+  end
+end
