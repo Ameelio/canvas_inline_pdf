@@ -19,7 +19,7 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require "canvas_inline_pdf/plugin/attachment_extension"
-require "canvas_inline_pdf/plugin/override_file_preview"
+# require "canvas_inline_pdf/plugin/override_file_preview"
 
 module CanvasInlinePdf
   # Canvas LMS Integration and registration.
@@ -27,14 +27,14 @@ module CanvasInlinePdf
     def enabled?
       plugin = Plugin.find
 
-      plugin&.enabled? == true
+      plugin.enabled? == true
     end
 
-    def override_file_preview?
-      plugin = Plugin.find
-
-      plugin&.enabled? && plugin.settings[:override_file_preview] == "true"
-    end
+    # def override_file_preview?
+    #   plugin = Plugin.find
+    #
+    #   plugin&.enabled? && plugin.settings[:override_file_preview] == "true"
+    # end
 
     def register_plugin
       Plugin.register
@@ -47,7 +47,7 @@ module CanvasInlinePdf
       hide_from_users: false,
       settings_partial: "canvas_inline_pdf/plugin_settings",
       settings: {
-        override_file_preview: false
+ #       override_file_preview: false
       },
       version: CanvasInlinePdf::VERSION
     }
@@ -67,10 +67,10 @@ module CanvasInlinePdf
 
       ::Attachment.prepend(AttachmentExtension)
 
-      ::FilePreviewsController.before_action(
-        OverrideFilePreview.new,
-        on: :show
-      )
+      # ::FilePreviewsController.before_action(
+      #   OverrideFilePreview.new,
+      #   on: :show
+      # )
     end
   end
 end
