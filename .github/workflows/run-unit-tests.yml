@@ -17,7 +17,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-          ruby-version: '3.1.6'
+          ruby-version: '3.4.2'
 
       - name: Cache RBS collection
         id: cache-rbs
@@ -37,9 +37,6 @@ jobs:
     strategy:
       matrix:
         ruby:
-          - '3.1.6'
-          - '3.2.7'
-          - '3.3.7'
           - '3.4.2'
         platform:
           - 'ubuntu-22.04'

@@ -33,6 +33,8 @@ module CanvasInlinePdf
       def enabled?: () -> bool
 
       def mark_seen: (ActionController::Base, untyped) -> untyped
+
+      def template: () -> String
     end
   end
 
